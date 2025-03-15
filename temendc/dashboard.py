@@ -14,7 +14,7 @@ st.sidebar.markdown("## Navigasi")
 menu = st.sidebar.radio("Pilih Halaman:", ["Halaman Utama", "Analisis Data"])
 
 # ========== LOAD DATA ========== 
-file_path = Path("category_reviews.csv")  # Pastikan path benar
+file_path = "temendc/category_reviews.csv"   # Pastikan path benar
 
 if file_path.exists():
     full_data = pd.read_csv(file_path)
