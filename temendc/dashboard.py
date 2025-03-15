@@ -19,7 +19,6 @@ file_path = Path("temendc/category_reviews.csv")  # Pastikan nama file sesuai de
 # Periksa apakah file ada
 if file_path.is_file():
     full_data = pd.read_csv(file_path)
-    st.success("✅ File CSV berhasil dimuat dari repository!")
     st.dataframe(full_data)
 else:
     st.error("❌ File tidak ditemukan! Pastikan file sudah ada di repository atau sesuaikan pathnya.")
