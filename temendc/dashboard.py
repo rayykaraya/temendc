@@ -13,24 +13,16 @@ st.set_page_config(page_title="Analisis E-Commerce Public Dataset", layout="wide
 st.sidebar.markdown("## Navigasi")
 menu = st.sidebar.radio("Pilih Halaman:", ["Halaman Utama", "Analisis Data"])
 
-# ========== LOAD DATA ========== 
-file_path = "temendc/category_reviews.csv"   # Pastikan path benar
+# Path ke file CSV
+file_path = Path("category_reviews.csv")  # Pastikan nama file sesuai dengan yang ada di repo
 
-if file_path.exists():
+# Periksa apakah file ada
+if file_path.is_file():
     full_data = pd.read_csv(file_path)
-
-    # Tampilkan data
-    st.write("### Dataframe yang Dimuat:")
+    st.success("✅ File CSV berhasil dimuat dari repository!")
     st.dataframe(full_data)
 else:
-    st.error("❌ File tidak ditemukan! Pastikan file CSV sudah ada di dalam repository atau unggah file.")
-
-    # Alternatif: Tambahkan fitur upload jika file tidak ditemukan
-    uploaded_file = st.file_uploader("Unggah file CSV", type=["csv"])
-    if uploaded_file is not None:
-        full_data = pd.read_csv(uploaded_file)
-        st.write("### Dataframe yang Dimuat (Dari Upload):")
-        st.dataframe(full_data)
+    st.error("❌ File tidak ditemukan! Pastikan file sudah ada di repository atau sesuaikan pathnya.")
 
 # ========== HALAMAN UTAMA ========== 
 if menu == "Halaman Utama":
