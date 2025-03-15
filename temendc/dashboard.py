@@ -20,20 +20,18 @@ if menu == "Halaman Utama":
         <h1 style='text-align: center;'>Analisis E-Commerce Public Dataset</h1>
         <h3 style='text-align: center;'>Berikut adalah dataset yang digunakan pada Analisis Data kali ini</h3>
         """, unsafe_allow_html=True)
-    
-    dataset_options = {"Category Reviews": "category_reviews.csv", 
-                       "Ordered Products": "ordered_products_by_customers.csv",
-                       }
-    selected_dataset = st.selectbox("Pilih Dataset:", list(dataset_options.keys()))
-    file_path = dataset_options[selected_dataset]
 
-    df = pd.read_csv(file_path)
+# ========== LOAD DATA ==========
+# Load file CSV langsung dari repository (tanpa harus di-upload)
+file_path = "dashboard/category_reviews.csv"  # Sesuaikan dengan lokasi file dalam repo
 
+try:
+    full_data = pd.read_csv(file_path)
 
-    st.write(f"### Dataframe yang Dipilih: {selected_dataset}")
-    st.dataframe(df)
+except FileNotFoundError:
+    st.error("❌ File tidak ditemukan! Pastikan file CSV sudah ada di dalam repository.")
 
-
+   
 elif menu == "Analisis Data":
     st.markdown("""
         <h1 style='text-align: center;'>📊 Analisis Data</h1>
