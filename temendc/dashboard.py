@@ -9,17 +9,17 @@ from pathlib import Path
 sns.set(style='dark')
 st.set_page_config(page_title="Analisis E-Commerce Public Dataset", layout="wide")
 
-# ========== NAVIGASI ========== 
+# ========== NAVIGASI ==========
 st.sidebar.markdown("## Navigasi")
 menu = st.sidebar.radio("Pilih Halaman:", ["Halaman Utama", "Analisis Data"])
 
-# Path ke file CSV
+# ========== PATH DATA ==========
 dataset_paths = {
     "Category Reviews": Path("temendc/category_reviews.csv"),
     "Ordered Products": Path("temendc/ordered_products_by_customers.csv")
 }
 
-# Cek apakah file ada
+# Memuat dataset jika tersedia
 datasets = {}
 for name, path in dataset_paths.items():
     if path.is_file():
@@ -27,13 +27,13 @@ for name, path in dataset_paths.items():
     else:
         st.sidebar.warning(f"⚠️ File {name} tidak ditemukan!")
 
-# ========== HALAMAN UTAMA ========== 
+# ========== HALAMAN UTAMA ==========
 if menu == "Halaman Utama":
     st.markdown("""
         <h1 style='text-align: center;'>Analisis E-Commerce Public Dataset</h1>
         <h3 style='text-align: center;'>Berikut adalah dataset yang digunakan pada Analisis Data kali ini</h3>
-    """, unsafe_allow_html=True)
-
+        """, unsafe_allow_html=True)
+    
     selected_dataset = st.selectbox("Pilih Dataset:", list(dataset_paths.keys()))
 
     if selected_dataset in datasets:
@@ -42,23 +42,23 @@ if menu == "Halaman Utama":
     else:
         st.error("❌ Dataset belum tersedia. Pastikan file sudah ada di repository atau unggah dataset.")
 
-# ========== ANALISIS DATA ========== 
+# ========== ANALISIS DATA ==========
 elif menu == "Analisis Data":
     st.markdown("""<h1 style='text-align: center;'>📊 Analisis Data</h1>""", unsafe_allow_html=True)
 
-    # Pastikan kedua dataset tersedia sebelum melakukan analisis
+    # Pastikan kedua dataset tersedia sebelum analisis
     if "Ordered Products" in datasets and "Category Reviews" in datasets:
         
         # ========== PERTANYAAN 1 ==========
         st.write("### PERTANYAAN 1: Produk dengan volume pembelian tertinggi")
-        ordered_products_by_customers_df = datasets["Ordered Products"]
+        ordered_products_df = datasets["Ordered Products"]
 
         # Pastikan kolom yang dibutuhkan ada
-        if "product_category_name" in ordered_products_by_customers_df.columns and "order_id" in ordered_products_by_customers_df.columns:
-            ordered_products_by_customers_df["product_category_name"] = ordered_products_by_customers_df["product_category_name"].astype(str)
+        if "product_category_name" in ordered_products_df.columns and "order_id" in ordered_products_df.columns:
+            ordered_products_df["product_category_name"] = ordered_products_df["product_category_name"].astype(str)
 
             top_10_products = (
-                ordered_products_by_customers_df
+                ordered_products_df
                 .groupby("product_category_name", as_index=False)
                 .agg({"order_id": "nunique"})
                 .nlargest(10, "order_id")
@@ -84,7 +84,7 @@ elif menu == "Analisis Data":
         if "review_score" in category_reviews_df.columns and "product_category_name_english" in category_reviews_df.columns:
             category_reviews_sorted = category_reviews_df.sort_values(by="review_score", ascending=False)
 
-            # Salin data sebelum menambahkan kolom baru untuk menghindari warning
+            # Salin data sebelum menambahkan kolom baru
             top_10_products_by_review = category_reviews_sorted.head(10).copy()
             top_10_lowest_rating_products = category_reviews_sorted.tail(10).copy()
 
