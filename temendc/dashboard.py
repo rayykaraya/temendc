@@ -15,21 +15,16 @@ else:
     menu = "Halaman Utama"
 
 # ========== LOAD DATA ==========
-dataset_options = {
-    "Category Reviews": "category_reviews.csv",
-    "Ordered Products": "ordered_products_by_customers.csv"
-}
+file_path = "category_reviews.csv"  # Sesuaikan path dengan lokasi file yang benar
 
-selected_dataset = st.selectbox("Pilih Dataset:", list(dataset_options.keys()))
-file_path = dataset_options[selected_dataset]
-
-try:
-    df = pd.read_csv(file_path)
-    st.write(f"### Dataframe yang Dipilih: {selected_dataset}")
-    st.dataframe(df)
-except FileNotFoundError:
+if os.path.exists(file_path):
+    full_data = pd.read_csv(file_path)
+    # Tampilkan data
+    st.write("### Dataframe yang Dimuat:")
+    st.dataframe(full_data)
+else:
     st.error("❌ File tidak ditemukan! Pastikan file CSV sudah ada di dalam repository.")
-
+    
 # ========== HALAMAN UTAMA ==========
 if menu == "Halaman Utama":
     st.markdown("""
