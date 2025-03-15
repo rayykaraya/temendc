@@ -14,7 +14,7 @@ st.sidebar.markdown("## Navigasi")
 menu = st.sidebar.radio("Pilih Halaman:", ["Halaman Utama", "Analisis Data"])
 
 # Path ke file CSV
-file_path = Path("category_reviews.csv")  # Pastikan nama file sesuai dengan yang ada di repo
+file_path = Path("temendc/category_reviews.csv")  # Pastikan nama file sesuai dengan yang ada di repo
 
 # Periksa apakah file ada
 if file_path.is_file():
